@@ -1,29 +1,47 @@
 import os
-import re
 import discord
 from dotenv import load_dotenv
+from discord.ext import commands
 
 load_dotenv()
 
-intents = discord.Intents.default()
-intents.message_content = True
+bot = commands.Bot(intents=discord.Intents.all(), command_prefix='!')
 
-client = discord.Client(intents=intents)
-
-@client.event
+@bot.event
 async def on_ready():
-    print(f'We have logged in as {client.user}')
+    print(f'{bot.user} just went online!')
+    await bot.change_presence(status=discord.Status.idle)
     
-
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == bot.user:
         return
-    
+
     match message.content.lower():
         case str(x) if 'bread 👍' in x:
             await message.channel.send('Bread 👍')
         case str(x) if 'good bot' in x:
             await message.channel.send('thanks bbg :3')
 
-client.run(os.getenv("TOKEN"))
+
+@bot.tree.command(name='version')
+async def version(interaction: discord.Interaction):
+    embed = discord.Embed(
+        color=discord.Color.purple(),
+        description=f'discord.py version: {discord.version_info}\nBot version: 1.0',
+        title='Version'
+    )
+    embed.set_author(name='BreadBot', url='https://mrdoge.xyz/')
+
+    await interaction.response.send_message(embed=embed)
+
+@bot.tree.command(name='sync')
+async def sync(interaction: discord.Interaction):
+    if interaction.user.id == 550015170542567434:
+        try:
+            synced = await bot.tree.sync()
+            print(f"Synced {len(synced)} command(s)")
+        except Exception as e:
+            print(e)
+
+bot.run(os.getenv('TOKEN'))
