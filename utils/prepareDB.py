@@ -1,14 +1,11 @@
-import os
 import mysql.connector
-from dotenv import load_dotenv
-
-load_dotenv()
+import src.config as env
 
 db = mysql.connector.connect(
-    host=os.getenv("DB_IP"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    database=os.getenv("DB_NAME")
+    host=env.DB_HOST,
+    user=env.DB_USER,
+    password=env.DB_PASSWORD,
+    database=env.DB_NAME
 )
 
 dbcursor = db.cursor()

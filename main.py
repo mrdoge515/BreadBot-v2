@@ -1,19 +1,16 @@
-import os
 import random
 import discord
-from dotenv import load_dotenv
 import mysql.connector
+import src.config as env
 from discord.ext import commands
-
-load_dotenv()
 
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='!')
 
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="db_f11479"
+    host=env.DB_HOST,
+    user=env.DB_USER,
+    password=env.DB_PASSWORD,
+    database=env.DB_NAME
 )
 dbcursor = db.cursor()
 
@@ -101,4 +98,4 @@ async def send_message(ctx, user: discord.User, *, message: str):
     except discord.Forbidden:
         await ctx.send(f"Unable to send a message to {user.mention}. Make sure they allow DMs from this server.")
 
-bot.run(os.getenv('TOKEN'))
+bot.run(env.DC_TOKEN)
