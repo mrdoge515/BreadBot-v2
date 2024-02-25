@@ -28,7 +28,7 @@ class MessageListener(commands.Cog):
       case str(x) if 'way' in x:
         await message.channel.send("https://media1.tenor.com/m/vWK04T5bh4kAAAAd/zoro-miles-morales.gif")
       case str(x) if 'kys' in x:
-        sql = "UPDATE test_users SET kys_count = kys_count + 1 WHERE dc_id = %s AND guild_id = %s"
+        sql = "UPDATE users SET kys_count = kys_count + 1 WHERE dc_id = %s AND guild_id = %s"
         val = (message.author.id, message.guild.id,)
         dbcursor.execute(sql, val)
         db.commit()

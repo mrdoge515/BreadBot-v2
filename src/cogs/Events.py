@@ -23,7 +23,7 @@ class Events(commands.Cog):
   @commands.Cog.listener()
   async def on_member_join(self, member):
     try:
-      sql = "INSERT INTO test_users (dc_id, guild_id, lvl, kys_count, kms_count) VALUES (%s, %s, 0, 0, 0)"
+      sql = "INSERT INTO users (dc_id, guild_id, lvl, kys_count, kms_count) VALUES (%s, %s, 0, 0, 0)"
       val = (member.id, member.guild.id,)
       dbcursor.execute(sql, val)
       db.commit()
